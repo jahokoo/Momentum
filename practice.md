@@ -933,3 +933,322 @@
     // document.body.append(bgImage) = child와 같았음
     // document.body.prepend(bgImage) = 최상단에 추가
     ```
+    
+    ## Setup
+    
+    ```jsx
+    const toDoForm = document.getElementById("todo-form");
+    const toDoInput = toDoForm.querySelector("#todo-form input"); // todo-form 안에 input
+    const toDoList = document.getElementById("todo-list");
+    
+    function handleToDoSubmit(event){
+        event.preventDefault(); // 새로고침 방지
+        const newTodo = toDoInput.value;
+        toDoInput.value = ""; // 이벤트 발생하면 공백으로 바뀌어라
+    }
+    
+    toDoForm.addEventListener("submit",handleToDoSubmit);
+    ```
+    
+    ## Adding ToDos
+    
+    ```jsx
+    const toDoForm = document.getElementById("todo-form");
+    const toDoInput = toDoForm.querySelector("#todo-form input"); // todo-form 안에 input
+    const toDoList = document.getElementById("todo-list");
+    
+    function paintToDo(newTodo){
+        const li = document.createElement('li'); // li 생성
+        const span = document.createElement('span'); // span생성
+        li.appendChild(span); // li 안에 span 생성
+        span.innerText = newTodo;  // span 안에 input값 생성
+        toDoList.appendChild(li) // html의 todo-list안에 li를 브라우저에 추가
+    }
+    
+    function handleToDoSubmit(event){
+        event.preventDefault();
+        const newTodo = toDoInput.value;
+        toDoInput.value = "";
+        paintToDo(newTodo)
+    }
+    
+    toDoForm.addEventListener("submit",handleToDoSubmit);
+    ```
+    
+    HTML
+    
+    ```html
+    <!DOCTYPE html>
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Momentum</title>
+        <link rel="stylesheet" href="css/style.css">
+    
+    </head>
+    
+    <body>
+        <form id="login-form" class="hidden">
+            <input required maxlength="10" type="text" placeholder="이름이 뭔가요?" />
+            <button>LogIn</button>
+        </form>
+        <h2 id="clock">00:00</h2>
+        <h1 id="greeting" class="hidden"></h1>
+        <form id="todo-form">
+            <input type="text" placeholder="Write a To Do and Press">
+        </form>
+        <ul id="todo-list">
+        </ul>
+        <div id="quote">
+            <span></span>
+            <span></span>
+        </div>
+      
+        <script src="js/greetings.js"></script>
+        <script src="js/clock.js"></script>
+        <script src="js/quotes.js"></script>
+        <script src="js/background.js"></script>
+        <script src="js/todo.js"></script>
+    </body>
+    
+    </html>
+    ```
+    
+    ## Deleting ToDos
+    
+    ```jsx
+    const toDoList = document.getElementById("todo-list");
+    
+    function deleteToDo(event){
+    // target = button 이고 button의 paraent = li를 삭제
+        const li = event.target.parentElement; 
+        li.remove();
+    
+    }
+    
+    function paintToDo(newTodo){
+        const li = document.createElement('li'); // li생성
+        const span = document.createElement('span'); // span생성
+        const button = document.createElement('button'); // button생성
+        button.innerText = "❌" 
+        button.addEventListener("click",deleteToDo) // 이벤트리스너 생성
+        li.appendChild(span); // li 안에 span 생성
+        li.appendChild(button) // 버튼 생성
+        span.innerText = newTodo;  // span 안에 input값 생성
+        toDoList.appendChild(li) // html의 todo-list안에 li를 브라우저에 추가
+        
+    }
+    
+    function handleToDoSubmit(event){
+        event.preventDefault();
+        const newTodo = toDoInput.value;
+        toDoInput.value = "";
+        paintToDo(newTodo)
+    }
+    
+    toDoForm.addEventListener("submit",handleToDoSubmit);
+    ```
+    
+    ## Saving To Dos
+    
+    ```jsx
+    const toDoForm = document.getElementById("todo-form");
+    const toDoInput = toDoForm.querySelector("#todo-form input"); // todo-form 안에 input
+    const toDoList = document.getElementById("todo-list");
+    
+    const toDos = [];
+    
+    function saveToDos(){
+        //JSON.stringify 를 사용하여 문자열("")로 변경해주자.
+        // ex ) ["ㅇㅇ","ㅇㅇ","ㄴㄴ","ㅁㅁ"]
+        localStorage.setItem("todos",JSON.stringify(toDos)); 
+    }
+    
+    function deleteToDo(event){
+        const li = event.target.parentElement; // target = button 이고 button의 paraent = li
+        li.remove();
+    
+    }
+    
+    function paintToDo(newTodo){
+        const li = document.createElement('li'); // li 생성
+        const span = document.createElement('span'); // span생성
+        const button = document.createElement('button');
+        button.innerText = "❌"
+        button.addEventListener("click",deleteToDo)
+        li.appendChild(span); // li 안에 span 생성
+        li.appendChild(button)
+        span.innerText = newTodo;  // span 안에 input값 생성
+        toDoList.appendChild(li) // html의 todo-list안에 li를 브라우저에 추가
+        
+    }
+    
+    function handleToDoSubmit(event){
+        event.preventDefault();
+        const newTodo = toDoInput.value;
+        toDoInput.value = "";
+        toDos.push(newTodo); // toDos array안에 push로 넣어준다
+        paintToDo(newTodo);
+        saveToDos();
+    }
+    
+    toDoForm.addEventListener("submit",handleToDoSubmit);
+    ```
+    
+    **JSON.stringify() 특성**
+    
+    value의 데이터 타입이 `number`또는 `boolean`일 경우, 그 값 자체를 그대로 가져오고, 데이터 타입은 `string(문자열)`이 된다.
+    
+    J**avaScript 객체를 JSON 문자열로 변환**
+    
+    ```jsx
+    ex ) 
+    JSON.stringify(7) // 7
+    JSON.stringify(true) // ‘true’
+    JSON.stringify(null) // null
+    ```
+    
+    ## Loading To Dos
+    
+    **JSON.parse(text: string, reviver)**
+    
+    **JSON 문자열을 JavaScript 객체로 변환**
+    
+    ```jsx
+    const savedToDos = localStorage.getItem(TODOS_KEY);
+    console.log(savedToDos)
+    if(savedToDos !== null){
+    // JSON형식을 다시 JS형식으로 변환
+        const parsedToDos = JSON.parse(savedToDos)
+    // forEach로 array를 풀어준다.
+        parsedToDos.forEach((item) => console.log("this is the turn of ",item));
+    }
+    /*  <console.log>
+    this is the turn of  a
+    this is the turn of  b
+    this is the turn of  c
+    */
+    ```
+    
+    ## Deleting To DOs
+    
+    **Date.now()로  id 만들기**
+    
+    ```jsx
+    // Date.now()는 현시간을 길게 나타내준다. ex) 1653458085431
+    // 이것을 id로 활용할것
+    
+    function handleToDoSubmit(event){
+        event.preventDefault();
+        const newTodo = toDoInput.value;
+        toDoInput.value = "";
+        const newToDoObj = { // json형식으로 생성
+            text : newTodo,  // 이름
+            id : Date.now(), // id 
+        };
+        toDos.push(newToDoObj); // toDos에 넣어준다.
+        paintToDo(newToDoObj); //  화면에 띄움 
+        saveToDos();
+    }
+    ```
+    
+    여기서 paintToDo()를 그대로 실행하면 object 만 화면에 나타나게된다.
+    
+    **paintToDo**로 넘어가서 text부분만 가져오게 변경
+    
+    ```jsx
+    function paintToDo(newTodo){
+        const li = document.createElement('li'); 
+        li.id = newTodo.id; // html li에 id를 추가 
+        const span = document.createElement('span'); 
+        const button = document.createElement('button');
+        button.innerText = "❌"
+        button.addEventListener("click",deleteToDo)
+        li.appendChild(span); 
+        li.appendChild(button); 
+        span.innerText = newTodo.text;  // 이름만 불러온다. id값은 가져오지않음
+        toDoList.appendChild(li)
+        
+    }
+    ```
+    
+    **filter()**
+    
+    ```jsx
+    
+    const arr = ["pizza","banana","tomato"]
+    
+    // banana가 아닌 나머지를 리턴하는 함수
+    function Filter(food){
+    return food !== "banana"
+    }
+    
+    arr.filter(Filter)
+    /// ["pizza","tomato"]
+    ```
+    
+    **filter를 이용하여 삭제구현하기**
+    
+    ```jsx
+    function deleteToDo(event){
+        const li = event.target.parentElement; 
+    		// toDo.id = number  /  li.id = string
+    		//parseInt로 li.id를 number로 변환
+        toDos = toDos.filter(toDo => toDo.id !== parseInt(li.id));
+        li.remove();
+    		// 삭제된걸 저장하여 현재상태 유지
+        saveToDos();
+    }
+    ```
+    
+    ## Geolocation
+    
+    나의 현재 위치 (위도,경도 등)를 불러올 수있는 메소드
+    
+    ```jsx
+    function onGeoOk(position){
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        console.log("You live in",lat,lng);
+    }
+    
+    function onGeoError(){
+        alert("Can't find you No Weather for you.");
+    }
+    // getCurrentPosition으로 현재 위치를 알수있다.
+    // 2개의 파라미터 >>  1.성공 2. 실패
+    navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError)
+    ```
+    
+    ## Weather API
+    
+    ```jsx
+    // https://home.openweathermap.org/api_keys
+    const API_KEY = "6b8d9faf0684b29a73972bb1c7cd105a";
+    
+    function onGeoOk(position){
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        console.log("You live in",lat,lon);
+        // 템플릿 리터럴로 lat,lon,api_key를 넣어주자
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}a`
+        // fetch = HTTP 요청과 응답 등의 요소를 JavaScript에서 접근하고 조작할 수 있음
+        fetch(url).then((response) => response.json())
+        .then((data) => {
+            const weather = document.querySelector("#weather span:first-child")
+            const city= document.querySelector("#weather span:last-child")
+            city.innerText= data.name
+            weather.innerText = `${data.weather[0].main} / ${data.main.temp}`
+        });
+    }
+    
+    function onGeoError(){
+        alert("Can't find you No Weather for you.");
+    }
+    
+    // getCurrentPosition으로 현재 위치를 알수있다.
+    // 2개의 파라미터 >>  1.성공 2. 실패
+    navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError)
+    ```
