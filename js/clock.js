@@ -1,4 +1,5 @@
 const clock = document.querySelector("#clock");
+const welcome = document.querySelector("#welcome")
 
 function getClock(){
     const date = new Date();
@@ -8,5 +9,5 @@ function getClock(){
     clock.innerText = `${hours}:${minutes}:${seconds}`;
 
 }
-getClock()
+getClock();
 setInterval(getClock,1000);

@@ -11,7 +11,7 @@
 
 <body>
     <h2 id="clock">00:00</h2>
-    
+
     <div id="weather">
 
         <span></span>
@@ -19,12 +19,13 @@
         <span></span>
     </div>
 
-<form id="login-form" class="hidden">
-        <div><input required maxlength="15" type="text" placeholder="Write your name" /></div>
+    <form id="login-form" class="hidden">
+        <div><input required maxlength="15" type="text" placeholder="Write your name" autofocus /></div>
 
     </form>
+    <div id="welcome"></div>
     <h1 id="greeting" class="hidden"></h1>
-    <form id="todo-form">
+    <form id="todo-form" class="hidden">
         <input type="text" placeholder="Write Your schedules" maxlength="50">
     </form>
     <ul id="todo-list">
@@ -33,7 +34,9 @@
         <span></span>
         <span></span>
     </div>
-
+    <div id="remover" class="hidden">
+        <button>reset</button>
+    </div>
     <script src="js/greetings.js"></script>
     <script src="js/clock.js"></script>
     <script src="js/quotes.js"></script>

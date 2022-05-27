@@ -106,3 +106,24 @@ body {
     text-align: center;
 }
 
+#welcome{
+    text-align: center;
+
+}
+
+#remover{
+    text-align: center;
+}
+#remover button{
+    background: darkgoldenrod;;
+    color : #fff;
+    margin-top: 15px;
+    border: 2px solid black;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+}
+#remover button:hover{
+    transform: scale(1.2);
+    transition-duration: 2s;
+}
