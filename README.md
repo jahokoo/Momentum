@@ -1,4 +1,4 @@
-https://jahokoo.github.io/VanilaJS/
+https://jahokoo.github.io/Momentum/
 <br>
 Momentum copy app<br>
 간단한 스케쥴러 앱<br>
